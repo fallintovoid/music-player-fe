@@ -1,18 +1,19 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import cn from 'classnames'
 
 import s from './Styles.module.scss'
 
 type Props = {
-    onChange: () => void;
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
     placeholder: string;
+    value: string;
     className?: string;
     type?: string;
 }
 
-const Input = ({ onChange, placeholder, className, type = 'text' }: Props) => {
+const Input = ({ onChange, placeholder, className, type = 'text', value }: Props) => {
   return (
-      <input type={type} className={cn(s.input, className)} placeholder={placeholder} onChange={onChange}/>
+      <input type={type} className={cn(s.input, className)} placeholder={placeholder} onChange={onChange} value={value}/>
   )
 }
 
