@@ -4,16 +4,17 @@ import axios from "axios";
 import { BACKEND_URL } from "@/constants/backend";
 import { QueueList } from "@/modules/QueueModule";
 import { AddQueue } from "@/modules/AddQueueModule";
+import { getQueue } from "@/utils/getQueue";
 
 type Props = {
     queue: IQueue[];
-    guildId: string | string[];
+    guildId: string;
 }
 
 export default function GuildPage({ queue, guildId }: Props) {
     return (
         <>
-            <QueueList queue={queue}/>
+            <QueueList queue={queue} guildId={guildId}/>
             <AddQueue guildId={guildId} />
         </>
         
@@ -21,10 +22,8 @@ export default function GuildPage({ queue, guildId }: Props) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context): Promise<GetServerSidePropsResult<Props>> => {
-    const guildId = context.params?.id
-    const queue = await axios.post<Props>(BACKEND_URL + "/get/queue", {
-        id: guildId
-    }).then(res => res.data.queue).catch(err => console.log(err))
+    const guildId = context.params?.id as string;
+    const queue = await getQueue(guildId);
 
     if (queue && guildId) {
         return {

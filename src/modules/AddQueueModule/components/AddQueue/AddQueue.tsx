@@ -13,14 +13,17 @@ const AddQueue = ({ guildId }: Props) => {
     const [inputNameValue, setInputNameValue] = useState('');
 
     const addTrackInQueue = async () => {
-        await axios.post(BACKEND_URL + '/queue/add', {
-            id: guildId,
-            add: {
-                link: inputLinkValue,
-                originalName: inputNameValue,
-                platform: 'youtube'
-            }
-        }).then(res => console.log(res.status)).catch(err => console.log(err))
+        if (inputLinkValue && inputNameValue) {
+            await axios.post(BACKEND_URL + '/queue/add', {
+                id: guildId,
+                add: {
+                    link: inputLinkValue,
+                    originalName: inputNameValue,
+                    platform: 'youtube'
+                }
+            }).then(res => console.log(res.status)).catch(err => console.log(err))
+        }
+        
     }
   return (
     <div>
